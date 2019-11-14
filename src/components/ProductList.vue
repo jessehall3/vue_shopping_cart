@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import shop from '@/api/shop'
 
 export default {
   data () {
@@ -29,7 +28,10 @@ export default {
   computed: {
     products () {
       return this.$store.getters.availableProducts
-    }
+    },
+    totalAmountDue () {
+      return this.$store.getters.totalAmountDue
+    },
   },
   methods: {
     addProductToCart (product) {

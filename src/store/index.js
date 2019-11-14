@@ -18,11 +18,16 @@ export default new Vuex.Store({
     products: [],
     // {id, quantity}
     cart: [],
+    totalAmountDue: 0,
   },
 
   getters: { // = compouted properties
     availableProducts (state, getters) {
       return state.products.filter(product => product.inventory > 0)
+    },
+
+    totalAmountDue (state, getters) {
+      return state.totalAmountDue
     },
   },
 
