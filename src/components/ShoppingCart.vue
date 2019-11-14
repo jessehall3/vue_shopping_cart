@@ -4,7 +4,7 @@
     <span>
       <ul>
         <li v-for="product in products">
-          {{ product.title }} - ${{ product.price }} - {{ product.quantity }}
+          {{ product.title }} - {{ product.price | currency }} - {{ product.quantity }}
           <button @click="addProductToCart(product)">Add To Cart</button>
         </li>
       </ul>
@@ -12,7 +12,7 @@
        Nothing in your cart.
       </p>
     </span>
-    <h3>Total: ${{ totalAmountDue }}</h3>
+    <h3>Total: {{ totalAmountDue | currency}}</h3>
   </div>
 </template>
 

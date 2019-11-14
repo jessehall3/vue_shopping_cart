@@ -5,7 +5,7 @@
     <span v-else>
       <ul>
         <li v-for="product in products">
-          {{ product.title }} - ${{ product.price }} - {{ product.inventory }}
+          {{ product.title }} - {{ product.price | currency }} - {{ product.inventory }}
           <button @click="addProductToCart(product)">Add To Cart</button>
         </li>
       </ul>
