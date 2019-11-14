@@ -1,6 +1,17 @@
 <template>
   <div>
     <h2>Your Cart</h2>
+    <span>
+      <ul>
+        <li v-for="product in products">
+          {{ product.title }} - ${{ product.price }} - {{ product.quantity }}
+          <button @click="addProductToCart(product)">Add To Cart</button>
+        </li>
+      </ul>
+      <p v-if="products.length === 0">
+       Nothing in your cart.
+      </p>
+    </span>
     <h3>Total: ${{ totalAmountDue }}</h3>
   </div>
 </template>
@@ -13,9 +24,9 @@ export default {
   //   }
   // },
   computed: {
-    // products () {
-    //   return this.$store.getters.availableProducts
-    // },
+    products () {
+      return this.$store.getters.cartProducts
+    },
     totalAmountDue () {
       return this.$store.getters.totalAmountDue
     },
