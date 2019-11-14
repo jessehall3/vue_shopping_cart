@@ -2,7 +2,7 @@
   <div class="">
     <h2>Product List</h2>
     <p v-if="loading">Loading...</p>
-    <ul>
+    <ul v-else>
       <li v-for="product in products">
         {{ product.title }} - ${{ product.price }}
       </li>
@@ -13,8 +13,6 @@
 <script>
 import shop from '@/api/shop'
 
-import store from '@/store/'
-
 export default {
   data () {
     return {
@@ -23,12 +21,12 @@ export default {
   },
   computed: {
     products () {
-      return store.getters.availableProducts
+      return this.$store.getters.availableProducts
     }
   },
   created () {
     this.loading = true
-    store.dispatch('fetchProducts')
+    this.$store.dispatch('fetchProducts')
       .then(() => this.loading = false)
   }
 }
