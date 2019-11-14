@@ -1,29 +1,29 @@
 <template>
   <div class="">
-    <h1>Product List</h1>
+    <h2>Product List</h2>
     <ul>
       <li v-for="product in products">
-        {{ product.name }}
+        {{ product.title }} - ${{ product.price }}
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import shop from '@/api/shop'
+
+import store from '@/store/'
+
 export default {
-  data: function() {
-    return {
-      products: [{
-        name: "apple",
-        price: "20"
-      }]
+  computed: {
+    products () {
+      return store.state.products
     }
   },
-  // created: function(){
-  //   const self = this
-  //   shop.getProducts(products => {
-  //     self.products = products
-  //   })
-  // }
+  created () {
+    shop.getProducts(products => {
+      store.commit('setProducts', products)
+    })
+  }
 }
 </script>

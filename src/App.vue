@@ -1,11 +1,7 @@
 <template>
   <div id="app">
-    <h1>Hello world</h1>
-    <h1>{{ hi }}</h1>
-    <h1>{{ numbers }}</h1>
-    <ul>
-      <li v-for="n in numbers">{{ n }}</li>
-    </ul>
+    <h1>Shopping Cart App</h1>
+    <hr>
     <product-list/>
   </div>
 </template>
@@ -17,12 +13,6 @@ export default {
   name: 'app',
   components: {
     'product-list': ProductList,
-  },
-  data: function(){
-    return {
-      hi: "hi",
-      numbers: [ 'one', 'two' ],
-    }
   },
 }
 </script>
