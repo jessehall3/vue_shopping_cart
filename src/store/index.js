@@ -18,10 +18,13 @@ export default new Vuex.Store({
   },
 
   actions: { // = methods
-    fetchProducts (context) {
-      shop.getProducts(products => {
-        context.commit('setProducts', products)
-      })
+    fetchProducts ({commit}) {
+      return new Promise((resolve, reject) => {
+        shop.getProducts(products => {
+          commit('setProducts', products)
+          resolve()
+        })
+      });
     }
   },
 
