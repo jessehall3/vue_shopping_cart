@@ -2,6 +2,8 @@ import Vuex from 'vuex'
 
 import Vue from 'vue'
 
+import shop from '@/api/shop'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -10,14 +12,16 @@ export default new Vuex.Store({
   },
 
   getters: { // = compouted properties
-    productsCount () {
-
-    }
+    availableProducts (state, getters) {
+      return state.products.filter(product => product.inventory > 0)
+    },
   },
 
   actions: { // = methods
-    fetchProducts () {
-      // make the call
+    fetchProducts (context) {
+      shop.getProducts(products => {
+        context.commit('setProducts', products)
+      })
     }
   },
 

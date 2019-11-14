@@ -17,13 +17,11 @@ import store from '@/store/'
 export default {
   computed: {
     products () {
-      return store.state.products
+      return store.getters.availableProducts
     }
   },
   created () {
-    shop.getProducts(products => {
-      store.commit('setProducts', products)
-    })
+    store.dispatch('fetchProducts')
   }
 }
 </script>
