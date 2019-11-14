@@ -6,9 +6,18 @@ import shop from '@/api/shop'
 
 Vue.use(Vuex)
 
+
+const _getCartItemById = (context, id) => {
+  return context.state.cart.find( cartItem => {
+    return cartItem.id === id
+  })
+}
+
 export default new Vuex.Store({
   state: { // = data
-    products: []
+    products: [],
+    // {id, quantity}
+    cart: [],
   },
 
   getters: { // = compouted properties
@@ -25,12 +34,41 @@ export default new Vuex.Store({
           resolve()
         })
       });
-    }
+    },
+
+    addProductToCart (context, product){
+      if (product.inventory <= 0) return
+
+      const cartItem = _getCartItemById(context, product.id)
+
+      if (!cartItem ) {
+        context.commit('pushProductToCart', product.id)
+      } else {
+        context.commit('incrementItemQuantity', cartItem)
+      }
+
+      context.commit('decrementProductInventory', product)
+    },
   },
 
-  mutations: { // chaning/updating the state
+  mutations: { // changing/updating the state
     setProducts (state, products) {
       state.products = products
-    }
+    },
+
+    pushProductToCart (state, productId) {
+      state.cart.push({
+        id: productId,
+        quantity: 1,
+      })
+    },
+
+    incrementItemQuantity(state, cartItem){
+      cartItem.quantity += 1
+    },
+
+    decrementProductInventory(state, product){
+      product.inventory -= 1
+    },
   },
 })
