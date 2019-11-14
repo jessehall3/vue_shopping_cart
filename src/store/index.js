@@ -11,6 +11,7 @@ export default new Vuex.Store({
     products: [],
     // {id, quantity}
     cart: [],
+    checkoutStatus: null,
   },
 
   getters: { // = compouted properties
@@ -32,11 +33,9 @@ export default new Vuex.Store({
     },
 
     totalAmountDue (state, getters) {
-      const rawTotal = getters.cartProducts.reduce( (sum, {price, quantity}) => {
-        return sum + (price * quantity)
+      return getters.cartProducts.reduce( (total, {price, quantity}) => {
+        return total + (price * quantity)
       } , 0)
-
-      return rawTotal.toFixed(2)
     },
   },
 
@@ -65,6 +64,19 @@ export default new Vuex.Store({
 
       context.commit('decrementProductInventory', product)
     },
+
+    checkout ({state, commit}) {
+      const checkoutSuccess = () => {
+        commit('emptyCart')
+        commit('setCheckoutStatus', 'success')
+      }
+
+      const checkoutFailure = () => {
+        commit('setCheckoutStatus', 'failure')
+      }
+
+      shop.buyProducts( state.cart, checkoutSuccess, checkoutFailure)
+    },
   },
 
   mutations: { // changing/updating the state
@@ -79,12 +91,20 @@ export default new Vuex.Store({
       })
     },
 
-    incrementItemQuantity(state, cartItem){
+    incrementItemQuantity (state, cartItem){
       cartItem.quantity += 1
     },
 
-    decrementProductInventory(state, product){
+    decrementProductInventory (state, product){
       product.inventory -= 1
     },
+
+    setCheckoutStatus (state, status) {
+      state.checkoutStatus = status
+    },
+
+    emptyCart (state) {
+      state.cart = []
+    }
   },
 })

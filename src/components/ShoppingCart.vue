@@ -5,7 +5,7 @@
       <ul>
         <li v-for="product in products">
           {{ product.title }} - {{ product.price | currency }} - {{ product.quantity }}
-          <button @click="addProductToCart(product)">Add To Cart</button>
+          <!-- <button @click="addProductToCart(product)">Add To Cart</button> -->
         </li>
       </ul>
       <p v-if="products.length === 0">
@@ -13,6 +13,7 @@
       </p>
     </span>
     <h3>Total: {{ totalAmountDue | currency}}</h3>
+    <button @click="checkout">Checkout</button>
   </div>
 </template>
 
@@ -31,11 +32,11 @@ export default {
       return this.$store.getters.totalAmountDue
     },
   },
-  // methods: {
-  //   addProductToCart (product) {
-  //     this.$store.dispatch('addProductToCart', product)
-  //   }
-  // },
+  methods: {
+    checkout () {
+      this.$store.dispatch('checkout')
+    }
+  },
   // created () {
   //   this.loading = true
   //   this.$store.dispatch('fetchProducts')
