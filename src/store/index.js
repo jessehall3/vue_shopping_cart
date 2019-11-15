@@ -55,24 +55,24 @@ export default new Vuex.Store({
       });
     },
 
-    addProductToCart (context, product){
-      if (product.inventory <= 0) return
+    addProductToCart ({getters, state, commit}, product){
+      if (!getters.productIsInStock(product)) return
 
-      if (context.state.checkoutStatus === 'success'){
-        context.commit('setCheckoutStatus', null) // we only show the status if it is a recent succes (no added items), or it is still on 'failure'
+      if (state.checkoutStatus === 'success'){
+        commit('setCheckoutStatus', null) // we only show the status if it is a recent succes (no added items), or it is still on 'failure'
       }
 
-      const cartItem = context.state.cart.find(cartItem => {
+      const cartItem = state.cart.find(cartItem => {
         return cartItem.id === product.id
       })
 
       if (!cartItem ) {
-        context.commit('pushProductToCart', product.id)
+        commit('pushProductToCart', product.id)
       } else {
-        context.commit('incrementItemQuantity', cartItem)
+        commit('incrementItemQuantity', cartItem)
       }
 
-      context.commit('decrementProductInventory', product)
+      commit('decrementProductInventory', product)
     },
 
     checkout ({state, commit}) {
