@@ -52,6 +52,10 @@ export default new Vuex.Store({
     addProductToCart (context, product){
       if (product.inventory <= 0) return
 
+      if (context.state.checkoutStatus === 'success'){
+        context.commit('setCheckoutStatus', null) // we only show the status if it is a recent succes (no added items), or it is still on 'failure'
+      }
+
       const cartItem = context.state.cart.find(cartItem => {
         return cartItem.id === product.id
       })
