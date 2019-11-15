@@ -6,7 +6,11 @@
       <ul>
         <li v-for="product in products">
           {{ product.title }} - {{ product.price | currency }} - {{ product.inventory }}
-          <button @click="addProductToCart(product)">Add To Cart</button>
+          <button
+            @click="addProductToCart(product)"
+            :disabled="product.inventory <= 0">
+            Add To Cart
+          </button>
         </li>
       </ul>
       <p v-if="products.length === 0">
@@ -27,7 +31,7 @@ export default {
   },
   computed: {
     products () {
-      return this.$store.getters.availableProducts
+      return this.$store.state.products
     },
     totalAmountDue () {
       return this.$store.getters.totalAmountDue
