@@ -32,10 +32,16 @@ export default new Vuex.Store({
       })
     },
 
-    totalAmountDue (state, getters) {
+    cartTotal (state, getters) {
       return getters.cartProducts.reduce( (total, {price, quantity}) => {
         return total + (price * quantity)
       } , 0)
+    },
+
+    productIsInStock (state, getters){
+      return (product) => {
+        return product.inventory > 0
+      }
     },
   },
 

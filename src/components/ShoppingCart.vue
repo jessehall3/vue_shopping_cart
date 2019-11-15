@@ -11,7 +11,7 @@
        Nothing in your cart.
       </p>
     </span>
-    <h3>Total: {{ totalAmountDue | currency}}</h3>
+    <h3>Total: {{ cartTotal | currency}}</h3>
     <button @click="checkout">Checkout</button>
     <p v-if="checkoutStatus">Checkout Status: {{ checkoutStatus }}</p>
   </div>
@@ -23,12 +23,14 @@ export default {
     products () {
       return this.$store.getters.cartProducts
     },
-    totalAmountDue () {
-      return this.$store.getters.totalAmountDue
+
+    cartTotal () {
+      return this.$store.getters.cartTotal
     },
+
     checkoutStatus () {
       return this.$store.state.checkoutStatus
-    }
+    },
   },
   methods: {
     checkout () {
