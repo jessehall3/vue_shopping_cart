@@ -2,13 +2,15 @@ import shop from '@/api/shop'
 
 export default {
 
+  namespaced: true,
+
   state: {
     items: [],
     checkoutStatus: null,
   },
 
   getters: {
-    cartProducts (state, getters, rootState) {
+    cartProducts (state, getters, rootState, rootGetters) {
       return state.items.map(cartItem => {
 
         const product = rootState.products.items.find(product => {
@@ -52,8 +54,8 @@ export default {
   },
 
   actions: {
-    addProductToCart ({getters, state, commit, rootState}, product){
-      if (!getters.productIsInStock(product)) return
+    addProductToCart ({getters, state, commit, rootState, rootGetters}, product){
+      if (!rootGetters['products/productIsInStock'](product)) return
 
       if (state.checkoutStatus === 'success'){
         commit('setCheckoutStatus', null) // we only show the status if it is a recent succes (no added items), or it is still on 'failure'
@@ -69,7 +71,7 @@ export default {
         commit('incrementItemQuantity', cartItem)
       }
 
-      commit('decrementProductInventory', product)
+      commit('products/decrementProductInventory', product, {root: true})
     },
 
     checkout ({state, commit}) {

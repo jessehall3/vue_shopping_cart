@@ -33,19 +33,19 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      products: state => state.products.items
+    ...mapState('products', {
+      products: state => state.items
     }),
 
-    ...mapGetters({
+    ...mapGetters('products', {
       productIsInStock: 'productIsInStock'
     }),
   },
 
   methods: {
     ...mapActions({
-      addProductToCart: 'addProductToCart',
-      fetchProducts: 'fetchProducts',
+      addProductToCart: 'cart/addProductToCart',
+      fetchProducts: 'products/fetchProducts',
     })
   },
 
