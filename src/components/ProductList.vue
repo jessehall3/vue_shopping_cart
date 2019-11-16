@@ -23,7 +23,7 @@
 
 <script>
 
-import {mapState, mapGetters} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   data () {
@@ -31,6 +31,7 @@ export default {
       loading: false,
     }
   },
+
   computed: {
     ...mapState({
       products: 'products'
@@ -40,14 +41,17 @@ export default {
       productIsInStock: 'productIsInStock'
     }),
   },
+
   methods: {
-    addProductToCart (product) {
-      this.$store.dispatch('addProductToCart', product)
-    }
+    ...mapActions({
+      addProductToCart: 'addProductToCart',
+      fetchProducts: 'fetchProducts',
+    })
   },
+
   created () {
     this.loading = true
-    this.$store.dispatch('fetchProducts')
+    this.fetchProducts()
       .then(() => this.loading = false)
   }
 }

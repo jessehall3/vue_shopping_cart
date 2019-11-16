@@ -11,7 +11,7 @@
        Nothing in your cart.
       </p>
     </span>
-    <h3>Total: {{ cartTotal | currency}}</h3>
+    <h3>Total: {{ total | currency}}</h3>
     <button @click="checkout">Checkout</button>
     <p v-if="checkoutStatus">Checkout Status: {{ checkoutStatus }}</p>
   </div>
@@ -19,7 +19,7 @@
 
 <script>
 
-import {mapState, mapGetters} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   computed: {
@@ -29,15 +29,19 @@ export default {
 
     ...mapGetters({
       products: 'cartProducts',
-      cartTotal: 'cartTotal',
+      total: 'cartTotal',
     }),
   },
 
   methods: {
+    ...mapActions({
+      storeCheckout: 'checkout',
+    }),
+
     checkout () {
       if (this.products.length === 0) return
 
-      this.$store.dispatch('checkout')
+      this.storeCheckout()
     }
   },
 }
